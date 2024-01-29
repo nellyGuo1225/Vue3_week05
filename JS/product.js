@@ -29,7 +29,8 @@ const app = createApp({
             products: [],
             isNew: false,
             toastContent:'Hi',
-            pagination: {}
+            pagination: {},
+            isLoading: false
         }
     },
     components: {
@@ -84,24 +85,28 @@ const app = createApp({
         },
         createNewProduct() {
             this.product.data = this.tempProduct;
+            this.isLoading = true;
             axios.post(`${url}/api/${path}/admin/product`,this.product)
                 .then((res) => {
                     this.$refs.uModal.closeModal();
                     this.toastContent = '產品建立成功。';
                     myToast.show();
                     this.getProducts();
+                    this.isLoading = false;
                 })
                 .catch((error) => {
                     alert(error.data.message);
                 })
         },
         deleteProduct() {
+            this.isLoading = true;
             axios.delete(`${url}/api/${path}/admin/product/${this.tempProduct.id}`)
                 .then((res) => {
                     this.toastContent = '成功刪除一筆資料。';
                     myToast.show();
                     this.getProducts();
                     this.$refs.dModal.closeModal();
+                    this.isLoading = false;
                 })
                 .catch((error) => {
                     alert(error.data.message);
@@ -109,12 +114,14 @@ const app = createApp({
         },
         confirmEdit() {
             this.product.data = this.tempProduct;
+            this.isLoading = true;
             axios.put(`${url}/api/${path}/admin/product/${this.tempProduct.id}`, this.product)
                 .then((res) => {
                     this.toastContent = '修改成功。';
                     this.$refs.uModal.closeModal();
                     myToast.show();
                     this.getProducts();
+                    this.isLoading = false;
                 })
                 .catch((error) => {
                     alert(error.data.message);
@@ -131,4 +138,5 @@ const app = createApp({
     },
 });
 
+app.component('loading', VueLoading.Component);
 app.mount('#app');

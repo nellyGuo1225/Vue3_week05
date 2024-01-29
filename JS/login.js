@@ -14,19 +14,22 @@ const app = createApp({
             user: {
                 username: '',
                 password: ''
-            }
+            },
+            isLoading: false
         }
     },
     methods: {
         login() {
+            this.isLoading = true;
             axios.post(`${url}/admin/signin`, this.user)
                 .then((res) => {
-                    alert(res.data.message);
-                    // console.log(this.user);
+                    //alert(res.data.message);
                     const {token, expired} = res.data;
                     document.cookie = `hexToken=${ token }; expires=${ new Date(expired)}`;
-                    //this.checkLogin();
+                    alert(res.data.message);
+                    this.isLoading = false;
                     window.location.href="./product.html"
+
                 })
                 .catch((error) => {
                     alert(`${error.data.message}，請輸入正確資料並再次登入。`);
@@ -37,4 +40,5 @@ const app = createApp({
     },
 });
 
+app.component('loading', VueLoading.Component);
 app.mount('#app');
