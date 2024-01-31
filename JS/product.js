@@ -1,6 +1,6 @@
-import pagenation from './pageComponent.js'
-import updateModal from './updateModalComponent.js'
-import delModal from './delModalComponent.js'
+import pagenation from '../components/pageComponent.js'
+import updateModal from '../components/updateModalComponent.js'
+import delModal from '../components/delModalComponent.js'
 
 const { createApp } = Vue;
 const url = "https://vue3-course-api.hexschool.io/v2";
