@@ -14,7 +14,10 @@ export default {
     }
   },
   mounted() {
-    this.updateModal = new bootstrap.Modal(this.$refs.updateModal);
+    this.updateModal = new bootstrap.Modal(this.$refs.updateModal, {
+        keyboard: false,
+        backdrop: 'static'
+    });
   },
   template: `<div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel"
   aria-hidden="true" ref="updateModal">

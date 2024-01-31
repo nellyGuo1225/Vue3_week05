@@ -19,6 +19,9 @@
     <script>const I = VueDemi; const vueDemi = VueDemi;</script>
     <!-- Pinia 網頁版，實戰中還是以 npm 為主，這是比較少見的使用方式 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.0.28/pinia.iife.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.12.4/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.12.4/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.12.4/dist/vee-validate-i18n.min.js"></script>
 </head>
 
 <body>
@@ -29,8 +32,17 @@
             <Product-Card :products="products"></Product-Card>
             <Pagination :pagination="pagination" :get-products="getProducts"></Pagination>
         </div>
-        
-        
+        <v-form v-slot="{ errors }" @submit="onSubmit"></v-form>
+        <v-field
+         id="email"
+         name="email"
+         type="email"
+         class="form-control"
+         :class="{ 'is-invalid': errors['email'] }"
+         placeholder="請輸入 Email" rules="email|required"
+         v-model="user.email"
+        ></v-field>
+        <error-message name="email" class="invalid-feedback"></error-message>
     </div>
 
     <style>

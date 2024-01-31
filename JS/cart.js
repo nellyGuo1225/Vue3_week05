@@ -1,7 +1,7 @@
 const { createApp } = Vue;
 const { createPinia } = Pinia;
 
-import productStore from '../Store/productStore.js'
+//import productStore from '../Store/productStore.js'
 import Navbar from '../components/navComponent.js'
 import Cart from '../components/cartComponent.js'
 import ProductCard from '../components/productCardComponent.js'
@@ -10,11 +10,29 @@ import Pagination from '../components/pageComponent.js'
 const url = "https://vue3-course-api.hexschool.io/v2";
 const path = "nian-api";
 
+Object.keys(VeeValidateRules).forEach(rule => {
+    if (rule !== 'default') {
+      VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+    }
+});
+
+// 讀取外部的資源
+VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
+
+// Activate the locale
+VeeValidate.configure({
+  generateMessage: VeeValidateI18n.localize('zh_TW'),
+  validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+});
+
 const app = createApp({
     data() {
         return {
             products: [],
             pagination: {},
+            user: {
+                email:''
+            }
         }
     },
     components: {
@@ -35,12 +53,19 @@ const app = createApp({
                 alert(error.data.message);
               })
         },
+        onSubmit () {
+            console.log(this);
+        }
     },
     mounted() {
         this.getProducts()
     },
 })
-const pinia = createPinia()
-app.use(pinia)
+// const pinia = createPinia()
+// app.use(pinia)
+
+app.component('VForm', VeeValidate.Form);
+app.component('VField', VeeValidate.Field);
+app.component('ErrorMessage', VeeValidate.ErrorMessage);
 
 app.mount('#app');

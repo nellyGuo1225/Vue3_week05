@@ -14,7 +14,10 @@ export default {
         }
       },
       mounted() {
-        this.delModal = new bootstrap.Modal(this.$refs.delModal);
+        this.delModal = new bootstrap.Modal(this.$refs.delModal, {
+            keyboard: false,
+            backdrop: 'static'
+        });
       },
     template: `  <div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="delModalLabel"
     aria-hidden="true" ref="delModal">
