@@ -17,7 +17,7 @@ Object.keys(VeeValidateRules).forEach(rule => {
 });
 
 // 讀取外部的資源
-VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
+VeeValidateI18n.loadLocaleFromURL('../zh_TW.json');
 
 // Activate the locale
 VeeValidate.configure({
@@ -30,8 +30,14 @@ const app = createApp({
         return {
             products: [],
             pagination: {},
-            user: {
-                email:''
+            form: {
+                user: {
+                    name: '',
+                    email: '',
+                    tel: '',
+                    address: ''
+                },
+                message: ''
             }
         }
     },
@@ -54,7 +60,16 @@ const app = createApp({
               })
         },
         onSubmit () {
-            console.log(this);
+            const order = this.form
+            axios.post(`${url}/api/${path}/order`, {data:order})
+              .then((res) => {
+                alert(res.data.message)
+                this.$refs.form.resetForm();
+              })
+              .catch((error) => {
+                console.dir(error);
+                alert(error.data.message);
+              })
         }
     },
     mounted() {

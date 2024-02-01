@@ -19,6 +19,7 @@
     <script>const I = VueDemi; const vueDemi = VueDemi;</script>
     <!-- Pinia 網頁版，實戰中還是以 npm 為主，這是比較少見的使用方式 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.0.28/pinia.iife.js"></script>
+    <!--vee-validate-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.12.4/vee-validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.12.4/dist/vee-validate-rules.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.12.4/dist/vee-validate-i18n.min.js"></script>
@@ -31,18 +32,76 @@
             <Cart></Cart>
             <Product-Card :products="products"></Product-Card>
             <Pagination :pagination="pagination" :get-products="getProducts"></Pagination>
+            <div class="row my-5 justify-content-center">
+                <div class="col-md-6">
+                    <v-form v-slot="{ errors }" @submit="onSubmit" ref="form">
+                        <div class="mt-2 py-2">
+                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <v-field
+                             id="email"
+                             name="email"
+                             type="email"
+                             class="form-control"
+                             :class="{ 'is-invalid': errors['email'] }"
+                             placeholder="請輸入 Email" rules="email|required"
+                             v-model="form.user.email"
+                            ></v-field>
+                            <error-message name="email" class="invalid-feedback"></error-message>
+                        </div>
+                        <div class="mt-2 py-2">
+                            <label for="name" class="form-label">收件人姓名<span class="text-danger">*</span></label>
+                            <v-field
+                             id="name"
+                             name="姓名"
+                             type="text"
+                             class="form-control"
+                             :class="{ 'is-invalid': errors['姓名'] }"
+                             placeholder="請輸入姓名" rules="required"
+                             v-model="form.user.name"
+                            ></v-field>
+                            <error-message name="姓名" class="invalid-feedback"></error-message>
+                        </div>
+                        <div class="mt-2 py-2">
+                            <label for="tel" class="form-label">收件人電話<span class="text-danger">*</span></label>
+                            <v-field
+                             id="tel"
+                             name="電話"
+                             type="tel"
+                             class="form-control"
+                             :class="{ 'is-invalid': errors['電話'] }"
+                             placeholder="請輸入電話" rules="required|max:10|min:8"
+                             v-model="form.user.tel"
+                            ></v-field>
+                            <error-message name="電話" class="invalid-feedback"></error-message>
+                        </div>
+                        <div class="mt-2 py-2">
+                            <label for="address" class="form-label">收件人地址<span class="text-danger">*</span></label>
+                            <v-field
+                             id="address"
+                             name="地址"
+                             type="text"
+                             class="form-control"
+                             :class="{ 'is-invalid': errors['地址'] }"
+                             placeholder="請輸入地址" rules="required"
+                             v-model="form.user.address"
+                            ></v-field>
+                            <error-message name="地址" class="invalid-feedback"></error-message>
+                        </div>
+                        <div class="mt-2 py-2">
+                            <label for="message" class="form-label">留言</label>
+                            <textarea name id="message" class="form-control" cols="30" rows="10"
+                            v-model="form.message"
+                            ></textarea>
+                        </div>
+                        <div class="mt-2 py-2">
+                            <button type="submit" class="btn btn-danger float-end">送出訂單</button>
+                        </div>
+                    </v-form>
+                </div>
+            </div>
+            
         </div>
-        <v-form v-slot="{ errors }" @submit="onSubmit"></v-form>
-        <v-field
-         id="email"
-         name="email"
-         type="email"
-         class="form-control"
-         :class="{ 'is-invalid': errors['email'] }"
-         placeholder="請輸入 Email" rules="email|required"
-         v-model="user.email"
-        ></v-field>
-        <error-message name="email" class="invalid-feedback"></error-message>
+        
     </div>
 
     <style>
