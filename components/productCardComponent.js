@@ -1,5 +1,10 @@
 export default {
     props: ['products'],
+    methods: {
+      addToCart (id) {
+        this.$emit('add-to-cart', id)
+      }
+    },
     template:
     `<div class="row row-cols-5">
       <div class="col" v-for="item in products" :key="item.id">
@@ -9,7 +14,7 @@ export default {
                 <h5 class="card-title">{{item.title}}
                 </h5>
                 <h5>$ {{item.price}}</h5>
-                <a href="#" class="btn btn-outline-success w-100">加入購物車</a>
+                <a href="#" class="btn btn-outline-success w-100" @click.prevent="addToCart(item.id)">加入購物車</a>
               </div>
           </div>
       </div>

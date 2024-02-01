@@ -1,7 +1,5 @@
 const { createApp } = Vue;
-const { createPinia } = Pinia;
 
-//import productStore from '../Store/productStore.js'
 import Navbar from '../components/navComponent.js'
 import Cart from '../components/cartComponent.js'
 import ProductCard from '../components/productCardComponent.js'
@@ -38,7 +36,9 @@ const app = createApp({
                     address: ''
                 },
                 message: ''
-            }
+            },
+            cartProduct: {},
+            itemNum:0
         }
     },
     components: {
@@ -70,14 +70,51 @@ const app = createApp({
                 console.dir(error);
                 alert(error.data.message);
               })
+        },
+        addToCart(id,qty=1) {
+            const temp = {
+                product_id: id,
+                qty: qty
+            };
+            axios.post(`${url}/api/${path}/cart`, { data:temp })
+            .then((res) => {
+              alert(res.data.message)
+              this.getCartProducts()
+            })
+            .catch((error) => {
+              console.dir(error);
+              alert(error.data.message);
+            })
+        },
+        getCartProducts () {
+            axios.get(`${url}/api/${path}/cart`)
+            .then((res) => {
+              this.cartProduct = res.data;
+              this.itemNum = this.cartProduct.data.carts.length;
+              console.log( this.cartProduct.data.final_total);
+            })
+            .catch((error) => {
+              console.dir(error);
+              alert(error.data.message);
+            })
+        },
+        delProduct(id) {
+            axios.delete(`${url}/api/${path}/cart/${id}`)
+            .then((res) => {
+              alert(res.data.message)
+              this.getCartProducts()
+            })
+            .catch((error) => {
+              console.dir(error);
+              alert(error.data.message);
+            })
         }
     },
     mounted() {
         this.getProducts()
+        this.getCartProducts()
     },
 })
-// const pinia = createPinia()
-// app.use(pinia)
 
 app.component('VForm', VeeValidate.Form);
 app.component('VField', VeeValidate.Field);

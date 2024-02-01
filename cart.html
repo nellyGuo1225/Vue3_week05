@@ -14,11 +14,6 @@
     <link href="
     https://cdn.jsdelivr.net/npm/vue-loading-overlay@6.0.3/dist/css/index.min.css
     " rel="stylesheet">
-    <!-- VueDemi，使用 Pinia 必要的相依套件 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.13.11/index.iife.js"></script>
-    <script>const I = VueDemi; const vueDemi = VueDemi;</script>
-    <!-- Pinia 網頁版，實戰中還是以 npm 為主，這是比較少見的使用方式 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.0.28/pinia.iife.js"></script>
     <!--vee-validate-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.12.4/vee-validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.12.4/dist/vee-validate-rules.min.js"></script>
@@ -28,9 +23,9 @@
 <body>
     <div id="app">
         <div class="container mt-4">
-            <Navbar></Navbar>
-            <Cart></Cart>
-            <Product-Card :products="products"></Product-Card>
+            <Navbar :item-num="itemNum"></Navbar>
+            <Cart :cart-product="cartProduct" @del-product="delProduct"></Cart>
+            <Product-Card :products="products" @add-to-cart="addToCart"></Product-Card>
             <Pagination :pagination="pagination" :get-products="getProducts"></Pagination>
             <div class="row my-5 justify-content-center">
                 <div class="col-md-6">

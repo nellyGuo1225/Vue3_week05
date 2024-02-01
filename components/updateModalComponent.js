@@ -66,14 +66,14 @@ export default {
                               <div class="mb-3">
                                   <label for="origin_price" class="form-label">原價</label>
                                   <input type="number" class="form-control" id="origin_price"
-                                  v-model="tempProduct.origin_price">
+                                  v-model.number="tempProduct.origin_price">
                               </div>
                           </div>
                           <div class="col-6">
                               <div class="mb-3">
                                   <label for="price" class="form-label">售價</label>
                                   <input type="number" class="form-control" id="price"
-                                  v-model="tempProduct.price">
+                                  v-model.number="tempProduct.price">
                               </div>
                           </div>
                       </div>
