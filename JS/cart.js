@@ -23,6 +23,8 @@ VeeValidate.configure({
   validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
 });
 
+let detailModal = null;
+
 const app = createApp({
     data() {
         return {
@@ -38,7 +40,8 @@ const app = createApp({
                 message: ''
             },
             cartProduct: {},
-            itemNum:0
+            itemNum:0,
+            tempProduct: {}
         }
     },
     components: {
@@ -78,6 +81,28 @@ const app = createApp({
             };
             axios.post(`${url}/api/${path}/cart`, { data:temp })
             .then((res) => {
+              alert(res.data.message);
+              this.getCartProducts();
+              detailModal.hide();
+              this.tempProduct={};
+            })
+            .catch((error) => {
+              console.dir(error);
+              alert(error.data.message);
+            })
+        },
+        updateCart(id) {
+            const temp = {
+                product_id: id,
+                qty: 0
+            };
+            this.cartProduct.data.carts.forEach((item) => {
+                if(item.id === id)
+                temp.qty = item.qty  
+            })
+
+            axios.put(`${url}/api/${path}/cart/${id}`,{ data:temp })
+            .then((res) => {
               alert(res.data.message)
               this.getCartProducts()
             })
@@ -108,11 +133,32 @@ const app = createApp({
               console.dir(error);
               alert(error.data.message);
             })
+        },
+        delCarts() {
+            axios.delete(`${url}/api/${path}/carts`)
+            .then((res) => {
+              alert(res.data.message)
+              this.getCartProducts()
+            })
+            .catch((error) => {
+              console.dir(error);
+              alert(error.data.message);
+            })
+        },
+        checkDetail (item) {
+            this.tempProduct = {...item,qty:1};
+            detailModal.show();
+            console.log( this.tempProduct);
         }
     },
     mounted() {
         this.getProducts()
         this.getCartProducts()
+
+        detailModal = new bootstrap.Modal(this.$refs.cartModal, {
+            keyboard: false,
+            backdrop: 'static'
+        })
     },
 })
 

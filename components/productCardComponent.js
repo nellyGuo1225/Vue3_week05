@@ -3,6 +3,9 @@ export default {
     methods: {
       addToCart (id) {
         this.$emit('add-to-cart', id)
+      },
+      checkItem (item) {
+        this.$emit('check-detail', item)
       }
     },
     template:
@@ -14,7 +17,10 @@ export default {
                 <h5 class="card-title">{{item.title}}
                 </h5>
                 <h5>$ {{item.price}}</h5>
-                <a href="#" class="btn btn-outline-success w-100" @click.prevent="addToCart(item.id)">加入購物車</a>
+                <button type="button" class="btn btn-outline-primary float-end" 
+                  @click="checkItem(item)">查看更多</button>
+                <a href="#" class="btn btn-outline-success " 
+                  @click.prevent="addToCart(item.id)">加入購物車</a>
               </div>
           </div>
       </div>

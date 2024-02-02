@@ -24,8 +24,11 @@
     <div id="app">
         <div class="container mt-4">
             <Navbar :item-num="itemNum"></Navbar>
-            <Cart :cart-product="cartProduct" @del-product="delProduct"></Cart>
-            <Product-Card :products="products" @add-to-cart="addToCart"></Product-Card>
+            <div class="text-end mt-4">
+                <button type="button" class="btn btn-danger" @click="delCarts">清空購物車</button>
+            </div>
+            <Cart :cart-product="cartProduct" @del-product="delProduct" @update-cart="updateCart"></Cart>
+            <Product-Card :products="products" @add-to-cart="addToCart" @check-detail="checkDetail"></Product-Card>
             <Pagination :pagination="pagination" :get-products="getProducts"></Pagination>
             <div class="row my-5 justify-content-center">
                 <div class="col-md-6">
@@ -94,9 +97,45 @@
                     </v-form>
                 </div>
             </div>
-            
         </div>
-        
+        <!--Modal-->
+        <div class="modal" tabindex="-1" ref="cartModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark text-light">
+                  <h5 class="modal-title ">{{tempProduct.title}}</h5>
+                  <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="mb-3">
+                        <img v-if="tempProduct.imageUrl !== undefined" :src="tempProduct.imageUrl" alt="圖片主圖"
+                            class="mt-3 img-thumbnail">
+                    </div>
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{tempProduct.category}}</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">商品描述：{{tempProduct.description}}</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">商品內容：{{tempProduct.content}}</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">
+                            <del>原價：$ {{tempProduct.origin_price}}</del><br>
+                            現在只要 $ {{tempProduct.price}}
+                        </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3 px-3">
+                    <input type="number" class="form-control"  aria-describedby="button-addon2" v-model="tempProduct.qty">
+                    <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="addToCart(tempProduct.id, tempProduct.qty)">加入購物車</button>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
 
     <style>
