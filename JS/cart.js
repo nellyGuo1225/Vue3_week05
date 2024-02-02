@@ -69,6 +69,7 @@ const app = createApp({
               .then((res) => {
                 alert(res.data.message)
                 this.$refs.form.resetForm();
+                this.getCartProducts();
               })
               .catch((error) => {
                 console.dir(error);
