@@ -41,7 +41,8 @@ const app = createApp({
             },
             cartProduct: {},
             itemNum:0,
-            tempProduct: {}
+            tempProduct: {},
+            loadingStatus: false
         }
     },
     components: {
@@ -75,12 +76,14 @@ const app = createApp({
               })
         },
         addToCart(id,qty=1) {
+            this.loadingStatus = true;
             const temp = {
                 product_id: id,
                 qty: qty
             };
             axios.post(`${url}/api/${path}/cart`, { data:temp })
             .then((res) => {
+              this.loadingStatus = false;
               alert(res.data.message);
               this.getCartProducts();
               detailModal.hide();
@@ -135,8 +138,10 @@ const app = createApp({
             })
         },
         delCarts() {
+            this.loadingStatus = true;
             axios.delete(`${url}/api/${path}/carts`)
             .then((res) => {
+              this.loadingStatus = false;
               alert(res.data.message)
               this.getCartProducts()
             })
@@ -166,4 +171,5 @@ app.component('VForm', VeeValidate.Form);
 app.component('VField', VeeValidate.Field);
 app.component('ErrorMessage', VeeValidate.ErrorMessage);
 
+app.component('loading', VueLoading.Component);
 app.mount('#app');
