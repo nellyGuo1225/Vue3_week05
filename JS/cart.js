@@ -101,8 +101,8 @@ const app = createApp({
                 qty: 0
             };
             this.cartProduct.data.carts.forEach((item) => {
-                if(item.id === id)
-                temp.qty = item.qty  
+                if(item.product_id === id)
+                temp.qty = item.qty 
             })
 
             axios.put(`${url}/api/${path}/cart/${id}`,{ data:temp })
@@ -120,7 +120,6 @@ const app = createApp({
             .then((res) => {
               this.cartProduct = res.data;
               this.itemNum = this.cartProduct.data.carts.length;
-              console.log( this.cartProduct.data.final_total);
             })
             .catch((error) => {
               console.dir(error);

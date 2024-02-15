@@ -22,7 +22,7 @@ export default {
                   <td width="200">
                       <div class="input-group mb-3">
                           <input type="number" class="form-control" aria-label="product num" aria-describedby="basic-addon2"
-                          v-model="item.qty" @blur="updateQty(item.id)">
+                          v-model="item.qty" @blur="updateQty(item.product_id)">
                           <span class="input-group-text" id="basic-addon2">{{item.product.unit}}</span>
                       </div>
                   </td>
