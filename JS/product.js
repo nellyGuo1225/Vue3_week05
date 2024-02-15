@@ -18,7 +18,6 @@ if(token === "" || token === null){
 
 let myToast = null;
 
-
 const app = createApp({
     data() {
         return {
