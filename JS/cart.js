@@ -65,10 +65,17 @@ const app = createApp({
         },
         onSubmit () {
             const order = this.form
+            if(this.itemNum === 0){
+              alert("購物車請加入品項再送出訂單。")
+              this.$refs.form.resetForm();
+              this.form.message = '';
+              return
+            }
             axios.post(`${url}/api/${path}/order`, {data:order})
               .then((res) => {
                 alert(res.data.message)
                 this.$refs.form.resetForm();
+                this.form.message = '';
                 this.getCartProducts();
               })
               .catch((error) => {
@@ -95,15 +102,15 @@ const app = createApp({
               alert(error.data.message);
             })
         },
-        updateCart(id) {
+        updateCart(item) {
+          
             const temp = {
-                product_id: id,
-                qty: 0
+                product_id: item.product_id,
+                qty: item.qty
             };
-            this.cartProduct.data.carts.forEach((item) => {
-                if(item.product_id === id)
-                temp.qty = item.qty 
-            })
+
+            const id = item.id
+            console.log(id,temp.product_id);
 
             axios.put(`${url}/api/${path}/cart/${id}`,{ data:temp })
             .then((res) => {
@@ -139,6 +146,7 @@ const app = createApp({
         },
         delCarts() {
             this.loadingStatus = true;
+            console.log(this.itemNum);
             axios.delete(`${url}/api/${path}/carts`)
             .then((res) => {
               this.loadingStatus = false;
@@ -154,6 +162,10 @@ const app = createApp({
             this.tempProduct = {...item,qty:1};
             detailModal.show();
             console.log( this.tempProduct);
+        },
+        isPhone (value) {
+          const phoneNumber = /^(09)[0-9]{8}$/
+          return phoneNumber.test(value) ? true : '請輸入手機號碼'
         }
     },
     mounted() {

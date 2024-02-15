@@ -1,5 +1,5 @@
 export default {
-    props:['cartProduct'],
+    props:['cartProduct','itemNum'],
     methods: {
         delCartItem (id) {
             this.$emit('del-product',id)
@@ -11,7 +11,7 @@ export default {
     template:
     `
     <div class="bg-light my-4 p-3">
-    <div class="text-seconary" v-if="!cartProduct.data">購物車沒有任何品項</div>
+    <div class="text-seconary" v-if="!itemNum">購物車沒有任何品項</div>
       <table class="table align-middle" v-else>
           <tbody>
               <tr v-for="item in cartProduct.data.carts" :key="item.id">
@@ -22,7 +22,7 @@ export default {
                   <td width="200">
                       <div class="input-group mb-3">
                           <input type="number" class="form-control" aria-label="product num" aria-describedby="basic-addon2"
-                          v-model="item.qty" @blur="updateQty(item.product_id)">
+                          v-model="item.qty" @blur="updateQty(item)">
                           <span class="input-group-text" id="basic-addon2">{{item.product.unit}}</span>
                       </div>
                   </td>

@@ -32,9 +32,9 @@
         <div class="container mt-4">
             <Navbar :item-num="itemNum"></Navbar>
             <div class="text-end mt-4">
-                <button type="button" class="btn btn-danger" @click="delCarts">清空購物車</button>
+                <button type="button" class="btn btn-danger" @click="delCarts" :disabled="itemNum === 0">清空購物車</button>
             </div>
-            <Cart :cart-product="cartProduct" @del-product="delProduct" @update-cart="updateCart"></Cart>
+            <Cart :cart-product="cartProduct" @del-product="delProduct" @update-cart="updateCart" :item-num="itemNum"></Cart>
             <Product-Card :products="products" @add-to-cart="addToCart" @check-detail="checkDetail"></Product-Card>
             <Pagination :pagination="pagination" :get-products="getProducts"></Pagination>
             <div class="row my-5 justify-content-center">
