@@ -15,7 +15,7 @@ Object.keys(VeeValidateRules).forEach(rule => {
 });
 
 // 讀取外部的資源
-VeeValidateI18n.loadLocaleFromURL('/zh_TW.json');
+VeeValidateI18n.loadLocaleFromURL('VUE3_WEEK05/zh_TW.json');
 
 // Activate the locale
 VeeValidate.configure({
